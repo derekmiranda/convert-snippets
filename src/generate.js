@@ -1,5 +1,6 @@
 const fs = require('fs')
 const { parse } = require('./parse')
+const { stripComments } = require('jsonc-parser')
 
 function generate(input, output) {
   const source = fs.readFileSync(input)
@@ -20,6 +21,7 @@ function ultisnipsToJSON(ultisnips) {
 }
 
 function jsonToUltisnips(json) {
+  json = stripComments(json.toString())
   const snippets = Object.values(JSON.parse(json))
   return snippets.map(toUltisnips).join('\n')
 }
